@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nptel-deployment
+  labels:
+    app: nptel
+spec:
+  selector:
+    matchLabels:
+      app: nptel
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nptel
+    spec:
+      containers:
+      - name: hello
+        image: nptel:latest
+        imagePullPolicy: Never
+        ports:
+        - name: http
+          containerPort: 3000 
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nptel-service
+spec:
+  selector:
+    app: nptel
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 3000 		
+    targetPort: 3000

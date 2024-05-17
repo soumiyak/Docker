@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: npteldeployment
+spec:
+  selector:
+    matchLabels:
+      app: nptel-front
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nptel-front
+    spec:
+      containers:
+      - name: nginx
+        image: frontnptel:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: nptel-webservice
+spec:
+  selector:
+    app: nptel-front
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
